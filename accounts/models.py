@@ -11,26 +11,26 @@ class MyAccountManager(BaseUserManager):
 
         if not username:
             raise ValueError("User must have an username")
-        
+
         user = self.model(
-            email = self.normalize_email(email),
-            username = username,
-            first_name = first_name,
-            last_name = last_name,
+            email=self.normalize_email(email),
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
     def create_superuser(self, first_name, last_name, username, email, password):
 
         user = self.create_user(
-            email = self.normalize_email(email),
-            username = username,
-            first_name = first_name,
-            last_name = last_name,
-            password = password,
+            email=self.normalize_email(email),
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
         )
 
         user.is_admin = True
@@ -40,12 +40,12 @@ class MyAccountManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class Account(AbstractBaseUser):
-    
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     username = models.CharField(max_length=50)
-    first_name = models.CharField(max_length=50, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     phone_number = models.CharField(max_length=50)
 
@@ -64,9 +64,9 @@ class Account(AbstractBaseUser):
 
     def __str__(self) -> str:
         return self.email
-    
+
     def has_perm(self, perm, obj=None):
         return self.is_admin
-    
+
     def has_module_perms(self, add_laber):
         return True
